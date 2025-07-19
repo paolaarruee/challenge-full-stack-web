@@ -1,9 +1,12 @@
 <template>
-  <router-view />
+  <v-app>
+    <Header/>
+    <router-view />
+  </v-app>
 </template>
 
 <script lang="ts" setup>
-// Nenhum script necessário por enquanto
+import Header from './components/Header.vue'
 </script>
 
 <style scoped>
