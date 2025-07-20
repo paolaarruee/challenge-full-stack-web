@@ -1,37 +1,31 @@
 <template>
     <v-container>
-        <v-card>
+        <v-text-field v-model="search" label="Buscar aluno" prepend-inner-icon="mdi-magnify" clearable class="mb-4" />
 
-            <h2>Lista de Alunos</h2>
+        <v-table>
+            <thead>
+                <tr>
+                    <th>Registro Academico</th>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="student in paginatedStudents" :key="student.ra">
+                    <td>{{ student.ra }}</td>
+                    <td>{{ student.name }}</td>
+                    <td>{{ student.cpf }}</td>
+                    <td>
+                        <v-icon small class="mr-2" color="blue" title="Editar">mdi-pencil</v-icon>
+                        <v-icon small color="red" title="Excluir">mdi-delete</v-icon>
+                    </td>
+                </tr>
+            </tbody>
+        </v-table>
 
-
-            <v-table striped="even">
-                <thead>
-                    <tr>
-                        <th class="text-left">Registro Acadêmico</th>
-                        <th class="text-left">Nome</th>
-                        <th class="text-left">CPF</th>
-                        <th class="text-left">Ações</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="item in paginatedStudents" :key="item.ra">
-                        <td>{{ item.ra }}</td>
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.cpf }}</td>
-                        <td>
-                            <v-icon small class="mr-2" color="blue" title="Editar">mdi-pencil</v-icon>
-                            <v-icon small color="red" title="Excluir">mdi-delete</v-icon>
-                        </td>
-                    </tr>
-                </tbody>
-            </v-table>
-        </v-card>
-
-        <div class="text-center mt-4">
-            <v-pagination v-model="page" :length="Math.ceil(students.length / itemsPerPage)" :total-visible="5"
-                next-icon="mdi-menu-right" prev-icon="mdi-menu-left" />
-        </div>
+        <v-pagination v-model="currentPage" :length="Math.ceil(filteredStudents.length / itemsPerPage)" class="mt-4"
+            color="indigo" />
     </v-container>
 </template>
 
@@ -83,12 +77,23 @@ const students = ref<Student[]>([
     { id: 39, ra: '100040', name: 'Natália Pires', cpf: '010.121.232-33', email: 'natalia.pires@example.com' },
 ])
 
-const page = ref(1)
-const itemsPerPage = 10
+const search = ref('')
+const currentPage = ref(1)
+const itemsPerPage = 5
+
+const filteredStudents = computed(() => {
+    const query = search.value.toLowerCase()
+    return students.value.filter((student) =>
+        Object.values(student).some((val) =>
+            String(val).toLowerCase().includes(query)
+        )
+    )
+})
 
 const paginatedStudents = computed(() => {
-    const start = (page.value - 1) * itemsPerPage
-    return students.value.slice(start, start + itemsPerPage)
+    const start = (currentPage.value - 1) * itemsPerPage
+    const end = start + itemsPerPage
+    return filteredStudents.value.slice(start, end)
 })
 </script>
 
