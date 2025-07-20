@@ -1,6 +1,11 @@
 <template>
     <v-container>
-        <v-text-field v-model="search" label="Buscar aluno" prepend-inner-icon="mdi-magnify" clearable class="mb-4" />
+        <h1 class="title">Lista Alunos</h1>
+        <div class="toolbar d-flex justify-space-between align-center mb-4">
+            <v-text-field v-model="search" class="search-input" label="Buscar aluno" prepend-inner-icon="mdi-magnify"
+                clearable />
+            <v-btn size="large" color="red">Cadastrar Aluno</v-btn>
+        </div>
 
         <v-table>
             <thead>
@@ -26,6 +31,7 @@
 
         <v-pagination v-model="currentPage" :length="Math.ceil(filteredStudents.length / itemsPerPage)" class="mt-4"
             color="indigo" />
+
     </v-container>
 </template>
 
@@ -127,5 +133,16 @@ const paginatedStudents = computed(() => {
 
 ::v-deep(.v-pagination) {
     --v-theme-primary: #2E74D2;
+}
+
+.search-input {
+    margin-bottom: 30px;
+    max-width: 600px;
+    height: 20px;
+}
+
+.title {
+    display: flex;
+    justify-content: center;
 }
 </style>
