@@ -15,8 +15,8 @@ export const createStudent = (data: {
   email: string
 }) => api.post('/student', data)
 
-export const updateStudent = (id: number, data: any) =>
-  api.put(`/students/${id}`, data)
+export const updateStudent = (id: number, data: { name: string; email: string }) =>
+  api.put(`/student/${id}`, data)
 
-export const deleteStudent = (id: number) =>
-  api.delete(`/students/${id}`)
+export const apiDeleteStudent = (id: number) =>
+  api.delete(`/student/${id}`)
