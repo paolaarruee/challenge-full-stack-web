@@ -3,9 +3,9 @@ import StudentList from "../views/StudentList.vue";
 import StudentForm from "../views/StudentForm.vue";
 
 const routes: RouteRecordRaw[] = [
-  { path: "/", redirect: "/students" },
-  { path: "/students", component: StudentList },
-  { path: "/cadastro-de-alunos", component: StudentForm },
+  { path: "/", component: StudentList },
+  { path: "/cadastro", component: StudentForm },
+  // { path: "/login", component: Login },
 ];
 
 const router = createRouter({

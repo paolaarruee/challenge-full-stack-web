@@ -6,15 +6,16 @@
 
                 <template v-slot:extension>
                     <v-tabs v-model="tabs" align-tabs="title" slider-color="pink">
-                        <v-tab text="Lista de Alunos" value="one" />
-                        <v-tab text="Cadastro de Alunos" value="two" />
-                        <v-tab text="Login" value="three" />
+
+                        <v-tab to="/" value="/" text="Lista de Alunos" />
+                        <v-tab to="/cadastro" value="/cadastro" text="Cadastro de Alunos" />
+                        <v-tab text="Login" />
                     </v-tabs>
                 </template>
             </v-app-bar>
 
             <v-main>
-                <!-- conteúdo -->
+
             </v-main>
         </v-layout>
     </v-card>

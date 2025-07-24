@@ -2,7 +2,7 @@
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
 import { computed } from 'vue'
-
+import { createStudent } from '../services/api'
 
 const schema = yup.object({
     name: yup.string().required('Nome é obrigatório'),
@@ -14,7 +14,7 @@ const schema = yup.object({
     cpf: yup
         .string()
         .required('CPF é obrigatório')
-        .matches(/^\d{11}$/, 'CPF deve conter exatamente 11 dígitos numéricos')
+        .matches(/^\d{11}$/, 'CPF deve conter exatamente 11 dígitos numéricos'),
 })
 
 const { handleSubmit, meta } = useForm({
@@ -22,15 +22,23 @@ const { handleSubmit, meta } = useForm({
     validateOnMount: false
 })
 
-
 const name = useField('name')
 const email = useField('email')
 const ra = useField('ra')
 const cpf = useField('cpf')
 
-
-const onSubmit = handleSubmit((values) => {
-    console.log('Dados enviados com sucesso:', values)
+const onSubmit = handleSubmit(async (values) => {
+    try {
+        await createStudent({
+            name: values.name,
+            cpf: values.cpf,
+            ra: values.ra,
+            email: values.email
+        })
+        console.log('Aluno cadastrado com sucesso!')
+    } catch (error) {
+        console.error('Erro ao cadastrar aluno:', error)
+    }
 })
 
 const isFormValid = computed(() => meta.value.valid)
@@ -59,7 +67,7 @@ function onlyNumbers(event: Event) {
                     counter="11" @input="onlyNumbers" />
 
                 <div class="d-flex justify-center mt-4">
-                    <v-btn type="submit" :disabled="!isFormValid">
+                    <v-btn @click="onSubmit" :disabled="!isFormValid">
                         Enviar
                     </v-btn>
                 </div>
