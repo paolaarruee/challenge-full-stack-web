@@ -4,7 +4,6 @@ import * as yup from 'yup'
 import { computed, ref } from 'vue'
 import { createStudent } from '../services/api'
 
-// Schema de validação
 const schema = yup.object({
     name: yup.string().required('Nome é obrigatório'),
     email: yup.string().email('Email inválido').required('Email é obrigatório'),
@@ -15,12 +14,12 @@ const schema = yup.object({
     cpf: yup
         .string()
         .required('CPF é obrigatório')
-        .matches(/^\d{11}$/, 'CPF deve conter exatamente 11 dígitos numéricos'),
+        .matches(/^\d{11}$/, ' CPF deve conter exatamente 11 dígitos numéricos'),
 })
 
 const { handleSubmit, meta } = useForm({
     validationSchema: schema,
-    validateOnMount: false
+     validateOnMount: false
 })
 
 const name = useField('name')

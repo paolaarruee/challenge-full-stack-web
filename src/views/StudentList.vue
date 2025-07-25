@@ -15,11 +15,11 @@
                     <th>Registro Acadêmico</th>
                     <th>Nome</th>
                     <th>CPF</th>
-                    <th>Ações</th>
+                    <th>Ações </th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="student in paginatedStudents" :key="student.ra">
+                <tr v-for="student in paginatedStudents"  :key="student.ra">
                     <td>{{ student.ra }}</td>
                     <td>{{ student.name }}</td>
                     <td>{{ student.cpf }}</td>

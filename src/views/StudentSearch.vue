@@ -5,7 +5,7 @@
     variant="outlined"
     prepend-inner-icon="mdi-magnify"
     clearable
-    @input="$emit('update:search', searchTerm)"
+    @input="$emit('update:search', searchTerm )"
   />
 </template>
 
@@ -18,6 +18,6 @@ const searchTerm = ref('')
 <style scoped>
 .v-text-field {
   max-width: 400px;
-  margin-bottom: 1rem;
+  margin-bottom:  1rem;
 }
 </style>

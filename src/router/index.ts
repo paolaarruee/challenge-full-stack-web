@@ -5,7 +5,6 @@ import StudentForm from "../views/StudentForm.vue";
 const routes: RouteRecordRaw[] = [
   { path: "/", component: StudentList },
   { path: "/cadastro", component: StudentForm },
-  // { path: "/login", component: Login },
 ];
 
 const router = createRouter({

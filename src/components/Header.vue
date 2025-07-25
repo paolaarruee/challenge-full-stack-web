@@ -32,7 +32,7 @@ const tabs = ref(null)
     background-color: transparent !important;
     color: inherit !important;
     box-shadow: none !important;
-    cursor: default !important;
+    cursor: default  !important;
 }
 
 .v-tabs .v-tab:focus {

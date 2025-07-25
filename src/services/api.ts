@@ -8,7 +8,7 @@ export const getAllStudents = () => api.get('/students')
 
 export const getStudentById = (id: number) => api.get(`/students/${id}`)
 
-export const createStudent = (data: {
+export const createStudent  = (data: {
   name: string
   cpf: string
   ra: string

@@ -4,7 +4,6 @@
       <v-card-title>{{ title }}</v-card-title>
       <v-card-text>
         <slot>
-          <!-- Se não passar slot, mostra message -->
           {{ message }}
         </slot>
       </v-card-text>

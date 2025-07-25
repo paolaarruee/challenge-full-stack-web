@@ -10,5 +10,5 @@ import Header from './components/Header.vue'
 </script>
 
 <style scoped>
-/* Estilos globais ou locais aqui */
+
 </style>
