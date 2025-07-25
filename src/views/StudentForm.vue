@@ -48,7 +48,7 @@ const onSubmit = handleSubmit(async (values) => {
         ra.value.value = ''
         cpf.value.value = ''
     } catch (error: any) {
-        let msg = 'Erro inesperado. Tente novamente.'
+        let msg = 'Já existe um aluno cadastrado com este CPF ou Registro Acadêmico.'
         snackbarMessage.value = msg
         snackbarColor.value = 'error'
         showSnackbar.value = true
@@ -89,7 +89,6 @@ const isFormValid = computed(() => meta.value.valid)
         </div>
     </div>
 
-    <!-- Snackbar para feedback -->
     <v-snackbar v-model="showSnackbar" :color="snackbarColor" timeout="4000" location="top" multi-line>
         {{ snackbarMessage }}
     </v-snackbar>
