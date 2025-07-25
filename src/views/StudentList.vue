@@ -30,8 +30,6 @@
                 </tr>
             </tbody>
         </v-table>
-
-        <!-- Modal Edição com formulário -->
         <ConfirmDialog v-model="showEditModal" title="Editar Aluno" confirmColor="blue" @confirm="saveEdit">
             <v-form ref="editFormRef" v-model="valid">
                 <v-text-field v-model="editForm.name" label="Nome" :rules="[v => !!v || 'Nome é obrigatório']"
@@ -43,10 +41,12 @@
             </v-form>
         </ConfirmDialog>
 
-        <!-- Modal Exclusão -->
         <ConfirmDialog v-model="showDeleteModal" title="Excluir Aluno"
             message="Tem certeza que deseja excluir este aluno?" confirmColor="red" @confirm="deleteStudent" />
     </v-container>
+    <v-snackbar v-model="snackbar.show" :color="snackbar.color" timeout="4000">
+        {{ snackbar.message }}
+    </v-snackbar>
 </template>
 
 <script lang="ts" setup>
@@ -59,17 +59,17 @@ const students = ref<Student[]>([])
 const search = ref('')
 const currentPage = ref(1)
 const itemsPerPage = 5
-
 const showDeleteModal = ref(false)
 const showEditModal = ref(false)
 const selectedStudent = ref<Student | null>(null)
-
-// Form edit fields separados para reatividade correta
 const editForm = ref({ name: '', email: '' })
-
-// Referência para o v-form do Vuetify para validar antes de salvar
 const editFormRef = ref<ComponentPublicInstance<{ validate: () => boolean }> | null>(null)
 const valid = ref(false)
+const snackbar = ref({
+    show: false,
+    message: '',
+    color: 'success'
+})
 
 const fetchStudents = async () => {
     try {
@@ -132,8 +132,10 @@ const saveEdit = async () => {
         }
 
         showEditModal.value = false
+        showSnackbar('Aluno atualizado com sucesso!', 'success')
     } catch (error) {
         console.error('Erro ao editar aluno:', error)
+        showSnackbar('Erro ao atualizar aluno.', 'error')
     }
 }
 
@@ -144,9 +146,18 @@ const deleteStudent = async () => {
         await apiDeleteStudent(selectedStudent.value.id)
         students.value = students.value.filter(s => s.id !== selectedStudent.value?.id)
         showDeleteModal.value = false
+        showSnackbar('Aluno excluído com sucesso!', 'success')
     } catch (error) {
         console.error('Erro ao excluir aluno:', error)
+        showSnackbar('Erro ao excluir aluno.', 'error')
     }
+}
+
+
+function showSnackbar(message: string, color: 'success' | 'error') {
+    snackbar.value.message = message
+    snackbar.value.color = color
+    snackbar.value.show = true
 }
 </script>
 

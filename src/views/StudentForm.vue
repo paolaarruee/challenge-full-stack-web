@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { useField, useForm } from 'vee-validate'
 import * as yup from 'yup'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { createStudent } from '../services/api'
 
+// Schema de validação
 const schema = yup.object({
     name: yup.string().required('Nome é obrigatório'),
     email: yup.string().email('Email inválido').required('Email é obrigatório'),
@@ -26,6 +27,9 @@ const name = useField('name')
 const email = useField('email')
 const ra = useField('ra')
 const cpf = useField('cpf')
+const showSnackbar = ref(false)
+const snackbarMessage = ref('')
+const snackbarColor = ref('error')
 
 const onSubmit = handleSubmit(async (values) => {
     try {
@@ -35,25 +39,35 @@ const onSubmit = handleSubmit(async (values) => {
             ra: values.ra,
             email: values.email
         })
-        console.log('Aluno cadastrado com sucesso!')
-    } catch (error) {
+        snackbarMessage.value = 'Aluno cadastrado com sucesso!'
+        snackbarColor.value = 'success'
+        showSnackbar.value = true
+
+        name.value.value = ''
+        email.value.value = ''
+        ra.value.value = ''
+        cpf.value.value = ''
+    } catch (error: any) {
+        let msg = 'Erro inesperado. Tente novamente.'
+        snackbarMessage.value = msg
+        snackbarColor.value = 'error'
+        showSnackbar.value = true
         console.error('Erro ao cadastrar aluno:', error)
     }
 })
-
-const isFormValid = computed(() => meta.value.valid)
 
 function onlyNumbers(event: Event) {
     const input = event.target as HTMLInputElement
     input.value = input.value.replace(/\D/g, '')
 }
+
+const isFormValid = computed(() => meta.value.valid)
 </script>
 
 <template>
     <div class="body">
-        <h2 class="title">
-            Cadastro de Alunos
-        </h2>
+        <h2 class="title">Cadastro de Alunos</h2>
+
         <div class="form">
             <form @submit.prevent="onSubmit">
                 <v-text-field v-model="name.value.value" :error-messages="name.errorMessage.value" label="Nome" />
@@ -75,7 +89,10 @@ function onlyNumbers(event: Event) {
         </div>
     </div>
 
-
+    <!-- Snackbar para feedback -->
+    <v-snackbar v-model="showSnackbar" :color="snackbarColor" timeout="4000" location="top" multi-line>
+        {{ snackbarMessage }}
+    </v-snackbar>
 </template>
 
 <style scoped>
